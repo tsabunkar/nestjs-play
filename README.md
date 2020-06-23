@@ -33,3 +33,34 @@
 - Request object :
   - Nest provides access to the request object of the underlying platform (Express by default).
   - We can access the request object by instructing Nest to inject it by adding the @Req() decorator to the handler's signature.
+- Resources :
+  - Nest provides the rest of the standard HTTP request endpoint decorators - @Put(), @Delete(), @Patch(), @Options(), @Head(), and @All()
+- Route wildcards :
+  - asterisk is used as a wildcard, and will match any combination of characters.
+  - The characters ?, +, \*, and () may be used in a route path, and are subsets of their regular expression counterparts.
+  - The hyphen (-) and the dot (.) are interpreted literally by string-based paths.
+- Status Code :
+  - response status code is always 200 by default
+  - except for POST requests which are 201.
+  - We can easily change this behavior by adding the @HttpCode(...) decorator at a handler level.
+- Headers :
+  - @Header() decorator or a library-specific (express) response object (and call res.header() directly)
+  - This Response Header, not Request Header
+- Redirection :
+  - To redirect a response to a specific URL, you can either use a @Redirect() decorator or a library-specific response object (and call res.redirect() directly).
+  - requires url argument, and an optional statusCode argument.
+  - statusCode defaults to 302 (Found) if omitted.
+- Route parameters:
+  - Routes with dynamic data can be accessed.
+  - Route parameters declared in this way can be accessed using the @Param() decorator, which should be added to the method signature.
+- Sub-Domain Routing:
+  - A subdomain is a domain that is part of a larger domain
+  - For example, west.example.com and east.example.com are subdomains of the example.com domain
+  - @Controller decorator can take a host option to require that the HTTP host of the incoming requests matches
+  - route path specified in the host can be accessed dynamically using @HostParam() decorator
+  - example: \$ nest g controller sub-domain
+- Scopes :
+  - Node.js doesn't follow the request/response Multi-Threaded Stateless Model in which every request is processed by a separate thread. Hence, using singleton instances is fully safe for our applications.
+- Asynchronicity :
+  - Every async function has to return a Promise
+  - RxJs Observable - Nest will automatically subscribe to the source underneath and take the last emitted value (once the stream is completed).

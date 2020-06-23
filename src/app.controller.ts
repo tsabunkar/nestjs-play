@@ -1,6 +1,19 @@
-import { Controller, Get, Req, Body, Query, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Req,
+  Body,
+  Query,
+  Res,
+  Post,
+  HttpCode,
+  Header,
+  Redirect,
+  Param,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { Request, Response } from 'express';
+import { Observable, of } from 'rxjs';
 
 @Controller()
 export class AppController {
@@ -40,5 +53,80 @@ export class AppController {
      * @Res or @Response()
      */
     response.send(reqQuery);
+  }
+
+  @Post('cat')
+  @Header('name', 'sabunkar') // !Response Header, using Standard not Library-specific (express)
+  postNewCat(): string {
+    return `This is Post HTTP request`;
+  }
+
+  // http://localhost:3000/good  or http://localhost:3000/god
+  @Get('g*d')
+  @HttpCode(204) //  status code is always 200 by default, except for POST requests which are 201.
+  findAllWildcard(): string {
+    return 'This route uses a wildcard';
+  }
+
+  // http://localhost:3000/docs --Redirected_to-->  https://docs.nestjs.com (with StatusCode-302)
+  // http://localhost:3000/docs?version=5  ---> https://google.com
+  // http://localhost:3000/docs?version=7  ---> https://docs.nestjs.com
+  @Get('docs')
+  @Redirect('https://docs.nestjs.com', 302)
+  getDocs(@Query('version') version: Request | string): void | { url: string } {
+    if (version && version === '5') {
+      return { url: 'https://google.com' };
+    }
+  }
+
+  // http://localhost:3000/cats/1 or http://localhost:3000/cats/250
+  @Get('cats/:id')
+  findOneCat(@Param() params: { id: string }): string {
+    console.log(typeof params.id, 'value', params.id);
+    return `This action returns a #${params.id} cat`;
+  }
+
+  // http://localhost:3000/cats/kaali/250
+  /* 
+  @Get('cats/:name/:id')
+  findOneCat2(@Param() params: { id: string; name: string }): string {
+    console.log(typeof params.name, 'value', params.name);
+    return `This action returns a #${params.id} cat, whose name is - ${params.name}`;
+  }
+ */
+  // ! or
+
+  @Get('cats/:name/:id')
+  findOneCat3(@Param('id') id: string, @Param('name') name: string): string {
+    console.log(typeof name, 'value', name);
+    return `This action returns a #${id} cat, whose name is - ${name}`;
+  }
+
+  // http://localhost:3000/foos
+  @Get('foos')
+  async findAllFoo(): Promise<any[]> {
+    return [
+      {
+        cat: 'cat1',
+      },
+      {
+        cat: 'cat2',
+      },
+      { cat: 'cat3' },
+    ];
+  }
+
+  // http://localhost:3000/lists
+  @Get('lists')
+  findAllObservables(): Observable<any[]> {
+    return of([
+      {
+        cat: 'cat1',
+      },
+      {
+        cat: 'cat2',
+      },
+      { cat: 'cat3' },
+    ]);
   }
 }
