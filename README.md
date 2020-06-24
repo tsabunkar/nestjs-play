@@ -64,3 +64,9 @@
 - Asynchronicity :
   - Every async function has to return a Promise
   - RxJs Observable - Nest will automatically subscribe to the source underneath and take the last emitted value (once the stream is completed).
+- Request payloads:
+  - for POST route handler to accept client params -use-> @Body()
+  - we need to determine the DTO (Data Transfer Object) schema
+  - A DTO is an object that defines how the data will be sent over the network.
+  - determine the DTO schema by using TypeScript interfaces, or by simple classes.
+  - recommend using classes here why ? ==> Classes are part of the JavaScript ES6 standard, and therefore they are preserved as real entities in the compiled JavaScript. On the other hand, since TypeScript interfaces are removed during the transpilation, Nest can't refer to them at runtime.
