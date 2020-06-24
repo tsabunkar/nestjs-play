@@ -100,3 +100,43 @@
   - NOTE: If your class doesn't extend another provider, you should always prefer using constructor-based injection.
 - Provider registration:
   - by editing our module file (app.module.ts) and adding the service to the providers array of the @Module() decorator
+
+---
+
+# Modules
+
+- Modules:
+  - class annotated with a @Module() decorator
+  - @Module() decorator provides metadata that Nest makes use of to organize the application structure.
+  - Each application has at least one module, a root module. The root module is the starting point Nest.
+  - We want to emphasize that modules are strongly recommended as an effective way to organize your components.
+  - resulting architecture will employ multiple modules, each encapsulating a closely related set of capabilities.
+  - Module encapsulates providers by default. which means that it's impossible to inject providers that are neither directly part of the current module nor exported from the imported modules.
+  - Thus we should exports providers from a module as the module's public interface, or API. So that it this provider can be consumed by other modules
+- Feature modules:
+  - CatsController and CatsService belong to the same application domain. As they are closely related, it makes sense to move them into a feature module.
+  - \$ nest g module cats
+- Shared modules:
+  - In Nest, modules are singletons by default, thus you can share the same instance of any provider between multiple modules effortlessly.
+  - \$ nest g service shared/foo (Example)
+- Module re-exporting:
+  - modules can re-export the module that they have imported. In the example below, the CommonModule is both imported into and exported from the CoreModule
+
+```
+@Module({
+  imports: [CommonModule],
+  exports: [CommonModule],
+})
+export class CoreModule {}
+```
+
+- Dependency injection
+  - A module class can inject providers as well (for configuration purposes)
+  - A module classes themselves cannot be injected as providers due to circular dependency .
+- Global modules:
+  - NOTE: Angular providers are registered in the global scope ==> Once defined, they're available everywhere. Nest, however, encapsulates providers inside the module scope.
+  - When you want to provide a set of providers which should be available everywhere out-of-the-box (e.g., helpers, database connections, etc.), make the module global with the @Global() decorator.
+  - Global modules should be registered only once, generally by the root or core module.
+  - NOTE: Making everything global is not a good design decision. Global modules are available to reduce the amount of necessary boilerplate. The imports array is generally the preferred way to make the module's API available to consumers.
+- Dynamic modules:
+  - This feature enables you to easily create customizable modules that can register and configure providers dynamically.
