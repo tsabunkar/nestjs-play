@@ -140,3 +140,21 @@ export class CoreModule {}
   - NOTE: Making everything global is not a good design decision. Global modules are available to reduce the amount of necessary boilerplate. The imports array is generally the preferred way to make the module's API available to consumers.
 - Dynamic modules:
   - This feature enables you to easily create customizable modules that can register and configure providers dynamically.
+
+---
+
+# Middleware
+
+- Middleware:
+  - Middleware is a function which is called before the route handler.
+  - Middleware functions have access to the request and response objects, and the next() middleware function.
+  - The next middleware function is commonly denoted by a variable named next
+  - <Client_side> ----(http Req)---> <Middleware> --------> <Route_Handler>
+  - Nest middleware are, by default, equivalent to express middleware.
+  - Middleware functions can perform the following tasks:
+    - make changes to the request and the response objects.
+    - end the request-response cycle.
+    - call the next middleware function in the stack.
+    - if the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
+  - Nest middleware should be implemented in either a function, or in a class with an @Injectable
+  -
