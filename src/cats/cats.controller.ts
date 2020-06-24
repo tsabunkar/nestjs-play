@@ -14,9 +14,12 @@ import {
 import { Request, Response } from 'express';
 import { Observable, of } from 'rxjs';
 import { CreateCatDto } from 'src/dto/create-cat.dto';
+import { CatsService } from './cats.service';
 
 @Controller('v1')
-export class CatController {
+export class CatsController {
+  constructor(private catsService: CatsService) {}
+
   @Get('cats')
   findAllCats(@Req() request: Request): string {
     // Req - access the request object of Express
@@ -126,6 +129,6 @@ export class CatController {
   // http://localhost:3000/v1/newCat
   @Post('newCat')
   createNewCate(@Body() createCatDto: CreateCatDto): string {
-    return `Cat ${JSON.stringify(createCatDto)} had been added to list`;
+    return this.catsService.createCat(createCatDto);
   }
 }

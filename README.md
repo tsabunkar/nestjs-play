@@ -70,3 +70,33 @@
   - A DTO is an object that defines how the data will be sent over the network.
   - determine the DTO schema by using TypeScript interfaces, or by simple classes.
   - recommend using classes here why ? ==> Classes are part of the JavaScript ES6 standard, and therefore they are preserved as real entities in the compiled JavaScript. On the other hand, since TypeScript interfaces are removed during the transpilation, Nest can't refer to them at runtime.
+
+---
+
+# Providers
+
+- Providers:
+  - Nest classes may be treated as a provider – services, repositories, factories, helpers,etc
+  - main idea of a provider is that it can inject dependencies
+  - @Injectable() decorator.
+  - Controllers should handle HTTP requests and delegate more complex tasks to providers.
+- Services:
+  - CatsService - This service will be responsible for data storage and retrieval, and is designed to be used by the CatsController
+  - \$ nest g service cats
+  - @Injectable() decorator attaches metadata, which tells Nest that this class is a Nest provider.
+- Scopes:
+  - Providers normally have a lifetime ("scope") synchronized with the application lifecycle.
+  - when the application shuts down, each provider will be destroyed. However, there are ways to make your provider lifetime request-scoped as well.
+- Custom providers:
+  - Nest has a built-in inversion of control ("IoC") container that resolves relationships between providers.
+  - We can also define providers using - plain values, classes, and either asynchronous or synchronous factories.
+- Optional providers:
+  - provider is optional, use the @Optional() decorator in the constructor's signature.
+  - If class depends on a configuration object, but if none is passed, the default values should be used.
+- Property-based injection:
+  - Previously we've used constructor-based injection, as providers are injected via the constructor method. In some very specific cases, property-based injection might be useful
+  - if your top-level class depends on either one or multiple providers, passing them all the way up by calling super() in sub-classes from the constructor can be very tedious.
+  - In order to avoid this, you can use the @Inject() decorator at the property level.
+  - NOTE: If your class doesn't extend another provider, you should always prefer using constructor-based injection.
+- Provider registration:
+  - by editing our module file (app.module.ts) and adding the service to the providers array of the @Module() decorator
