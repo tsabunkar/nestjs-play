@@ -158,3 +158,5 @@ export class CoreModule {}
     - if the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
   - Nest middleware should be implemented in either a function, or in a class with an @Injectable
   -
+
+---
