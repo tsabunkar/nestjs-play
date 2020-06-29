@@ -10,11 +10,15 @@ import {
   Header,
   Redirect,
   Param,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Observable, of } from 'rxjs';
 import { CreateCatDto } from 'src/dto/create-cat.dto';
 import { CatsService } from './cats.service';
+import { CustomException } from 'src/core/custom.exception';
+import { CustomHttpExceptionFilter } from 'src/core/http-exception.filter';
 
 @Controller('v1')
 export class CatsController {
@@ -130,5 +134,33 @@ export class CatsController {
   @Post('newCat')
   createNewCate(@Body() createCatDto: CreateCatDto): string {
     return this.catsService.createCat(createCatDto);
+  }
+
+  @Get('excep')
+  async exceptionTest(): Promise<void> {
+    // !Explicitly throwing Forbidden
+    /* 
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+     */
+    // ! To override the response as per desired structure
+
+    throw new HttpException(
+      {
+        status: HttpStatus.FORBIDDEN,
+        error: `This is a custom message for Forbidden`,
+        body: {},
+      },
+      HttpStatus.FORBIDDEN,
+    );
+  }
+
+  @Get('excep2')
+  async exceptionTest2(): Promise<void> {
+    // ! Writing Custom exception in separate class
+    /* 
+    throw new CustomException();
+    */
+
+    throw new CustomHttpExceptionFilter();
   }
 }

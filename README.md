@@ -171,3 +171,22 @@ export class CoreModule {}
   - MiddlewareConsumer is a helper class. It provides several built-in methods to manage middleware.
 
 ---
+
+# Exception Filters
+
+- Nest comes with a built-in exceptions layer which is responsible for processing all unhandled exceptions across an application.
+- When an exception is not handled by your application code, it is caught by this layer, which then automatically sends an appropriate user-friendly response.
+- this action is performed by a built-in global exception filter, which handles exceptions of type HttpException (and its subclasses)
+- When an exception is unrecognized the built-in exception filter generates the following default JSON response:
+
+```
+{
+  "statusCode": 500,
+  "message": "Internal server error"
+}
+```
+
+- Exception filters
+  - full control over the exceptions layer.
+  - For example, to add logging or use a different JSON schema
+  - ex- http-exception.filter.ts
