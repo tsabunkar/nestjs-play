@@ -157,6 +157,17 @@ export class CoreModule {}
     - call the next middleware function in the stack.
     - if the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
   - Nest middleware should be implemented in either a function, or in a class with an @Injectable
-  -
+  - To apply middleware there is no place for middleware in the @Module() decorator.
+  - Instead, we set them up using the configure() method of the module class.
+  - Modules that include middleware have to implement the NestModule
+  - We can apply middleware at : (ex- CoreModule)
+    - Class Level
+      - Class level Route
+      - Specific method level Route
+      - Specific method level Route Wildcards
+    - Functional Level
+    - Global Level (ex- main.ts)
+- Middleware consumer
+  - MiddlewareConsumer is a helper class. It provides several built-in methods to manage middleware.
 
 ---
