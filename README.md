@@ -190,3 +190,5 @@ export class CoreModule {}
   - full control over the exceptions layer.
   - For example, to add logging or use a different JSON schema
   - ex- http-exception.filter.ts
+  - UseFilters() decorator is used to bind custom excpetion filter with particular method
+  - Exception filters can be scoped at different levels: method-scoped, controller-scoped, or global-scoped. -> main.ts

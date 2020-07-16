@@ -12,6 +12,8 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  UseFilters,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Observable, of } from 'rxjs';
@@ -19,6 +21,7 @@ import { CreateCatDto } from 'src/dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { CustomException } from 'src/core/custom.exception';
 import { CustomHttpExceptionFilter } from 'src/core/http-exception.filter';
+import { AllExceptionsFilter } from 'src/core/all-exception.filter';
 
 @Controller('v1')
 export class CatsController {
@@ -136,6 +139,7 @@ export class CatsController {
     return this.catsService.createCat(createCatDto);
   }
 
+  // http://localhost:3000/v1/excep
   @Get('excep')
   async exceptionTest(): Promise<void> {
     // !Explicitly throwing Forbidden
@@ -154,6 +158,7 @@ export class CatsController {
     );
   }
 
+  // http://localhost:3000/v1/excep2
   @Get('excep2')
   async exceptionTest2(): Promise<void> {
     // ! Writing Custom exception in separate class
@@ -162,5 +167,21 @@ export class CatsController {
     */
 
     throw new CustomHttpExceptionFilter();
+  }
+
+  // http://localhost:3000/v1/excep3
+  // !Binding Custom Exception filter with a particular method
+  @Post('excep3')
+  // @UseFilters(new CustomHttpExceptionFilter())
+  @UseFilters(CustomHttpExceptionFilter) // ! or we can pass the class (instead of an instance)
+  async createCat() {
+    throw new ForbiddenException();
+  }
+
+  // http://localhost:3000/v1/allexcep
+  @Get('allexcep')
+  @UseFilters(AllExceptionsFilter)
+  async allException(): Promise<void> {
+    throw new ForbiddenException();
   }
 }
