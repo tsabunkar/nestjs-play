@@ -121,3 +121,6 @@ REF:
 
 - https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
 - https://idratherbewriting.com/learnapidoc/
+- https://restfulapi.net/resource-naming/
+- https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/
+- https://idratherbewriting.com/learnapidoc/
