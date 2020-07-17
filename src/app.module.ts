@@ -5,12 +5,14 @@ import { SubDomainController } from './sub-domain/sub-domain.controller';
 import { CatsModule } from './cats/cats.module';
 // import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import { DogsModule } from './dogs/dogs.module';
 
 @Module({
   imports: [
     CatsModule,
     // SharedModule, // ! No need to specifiy here, since no1 is consuming this module in App Module
     CoreModule,
+    DogsModule,
   ],
   controllers: [
     AppController,
