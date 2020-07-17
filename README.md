@@ -192,3 +192,43 @@ export class CoreModule {}
   - ex- http-exception.filter.ts
   - UseFilters() decorator is used to bind custom excpetion filter with particular method
   - Exception filters can be scoped at different levels: method-scoped, controller-scoped, or global-scoped. -> main.ts
+
+---
+
+# Pipes
+
+- Pipes should implement the PipeTransform interface.
+- Pipes use cases:
+  - TRANSFORMATION: transform input data to the desired form (e.g., from string to integer)
+  - VALIDATION: evaluate input data and if valid, simply pass it through unchanged; otherwise, throw an exception when the data is incorrect
+- pipes operate on the ARGUMENTS being processed by a controller route handler.
+- Nest has- built-in pipes and also we can create custom pipes
+- Check - how to bind pipes to route handlers.
+- Pipes run inside the exceptions zone. This means that when a Pipe throws an exception it is handled by the exceptions layer (global exceptions filter and any exceptions filters that are applied to the current context)
+- when an exception is thrown in a Pipe, no controller method is subsequently executed.
+- This gives you a best-practice technique for validating data coming into the application from external sources at the system boundary.
+- Built-in pipes
+  - ValidationPipe
+  - ParseIntPipe
+  - ParseBoolPipe
+  - ParseArrayPipe
+  - ParseUUIDPipe
+  - DefaultValuePipe
+- ParseIntPipe: pipe ensures that a method handler parameter is converted to a JavaScript integer (or throws an exception if the conversion fails). -> dog.controller.ts
+- Custom Pipes:
+  - \$ nest g pipe core/pipe/validation-custom
+- Schema based validation:
+  - Any incoming request to a method must contains a valid body.
+  - So we have to validate the three members of the createDogDto object.
+    - Solution-1) -> We could do this inside the route handler method, but doing so is not ideal as it would break the single responsibility rule (SRP).
+    - Solution-2) -> to create a validator class and delegate the task there. This has the disadvantage that we would have to remember to call this validator at the beginning of each method.
+    - Solution-3) -> creating validation middleware, This could work, but unfortunately it's not possible to create generic middleware which can be used across all contexts across the whole application.
+      - because middleware is unaware of the execution context, including the handler that will be called and any of its parameters.
+    - Solution-4) -> exactly the use case for which pipes are designed (IDEAL SOLUTION)
+- Object schema validation (Solution -4)
+  - Let us Joi library for validation
+  - \$ npm install --save @hapi/joi
+  - \$ npm install --save-dev @types/hapi\_\_joi (Installing Types as DevDependency)
+  - \$ nest g pipe core/pipe/joi-validation
+  - Create Joi Schema validations -> core/helpers/create-dog.validators.ts
+  - In controller add this Joi Schema Validation -> In-order to validate incoming request POST object ==> @UsePipes(new JoiValidationPipe(CreateDogSchema))
