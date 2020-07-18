@@ -232,3 +232,17 @@ export class CoreModule {}
   - \$ nest g pipe core/pipe/joi-validation
   - Create Joi Schema validations -> core/helpers/create-dog.validators.ts
   - In controller add this Joi Schema Validation -> In-order to validate incoming request POST object ==> @UsePipes(new JoiValidationPipe(CreateDogSchema))
+- Global scoped pipes:
+  - main.ts
+  - Global pipes are used across the whole application, for every controller and every route handler.
+- Transformation use case:
+  - pipe can also transform the input data to the desired format.
+- Providing defaults
+  - dog.controller.ts
+
+---
+
+# Validation
+
+- Inorder To validate the correctness of any data sent into a web application. To automatically validate incoming requests, Nest provides builtin pipe --> ValidationPipe
+-

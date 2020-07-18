@@ -9,6 +9,7 @@ import {
   Post,
   Body,
   UsePipes,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
@@ -52,5 +53,15 @@ export class DogsController {
   @UsePipes(new JoiValidationPipe(CreateDogSchemaValidtor)) // !Bind custom pipes to this method
   joiSchemaValidation(@Body() createDogDto: CreateDogDto) {
     return `Joi Validation ${JSON.stringify(createDogDto)}`;
+  }
+
+  //?  http://localhost:3000/api/dogs/default?dogId=23 or
+  //? http://localhost:3000/api/dogs/default?dogId  <- Key must be specified then default value be consider as 13
+  // ! Providing default value pipe
+  @Get('default')
+  transformationPipe(
+    @Query('dogId', new DefaultValuePipe(13), new ParseIntPipe()) id,
+  ) {
+    return `${id} value is parsed to Data-Type -> ${typeof id} using ParseIntPipe`;
   }
 }
