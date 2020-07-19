@@ -266,3 +266,22 @@ export class CoreModule {}
   - Nest provides the ability to attach custom metadata to route handlers through the @SetMetadata() decorator
   - @SetMetadata('roles', ['admin']) <-- Provide Role Data/Information
   - Check -> roles.decorator.ts
+
+---
+
+# Interceptors
+
+- An interceptor is a class annotated with the @Injectable() decorator.
+- Interceptors should implement the NestInterceptor interface.
+- It is -> inspired by the Aspect Oriented Programming (AOP) technique.
+- Using Interceptors we can:
+  - bind extra logic before / after method execution
+  - transform the result returned from a function
+  - transform the exception thrown from a function
+  - extend the basic function behavior
+  - completely override a function depending on specific conditions (e.g., for caching purposes)
+- intercept() method, which takes two arguments - ExecutionContext, Call handler
+- Execution context - extending ArgumentsHost
+- CallHandler - this interface implements the handle() method, which you can use to invoke the route handler method at some point in your interceptor.
+- Binding Interceptors -> @UseInterceptors(LoggingInterceptor)
+-

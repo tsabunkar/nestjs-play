@@ -5,6 +5,7 @@ import { CustomHttpExceptionFilter } from './core/http-exception.filter';
 import { GlobalExceptionsFilter } from './core/global-exception.filter';
 import { ValidationCustomPipe } from './core/pipe/validation-custom.pipe';
 import { RoleGuard } from './core/auth/role.guard';
+import { LoggingInterceptor } from './core/interceptor/logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,6 +32,11 @@ async function bootstrap() {
   // !Appying Global Level Guard
   /* 
   app.useGlobalGuards(new RoleGuard());
+ */
+
+  // !Appying Global Level Interceptor
+  /* 
+  app.useGlobalInterceptors(new LoggingInterceptor());
  */
 
   await app.listen(3000);

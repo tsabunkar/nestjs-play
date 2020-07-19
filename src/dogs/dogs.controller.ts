@@ -11,6 +11,7 @@ import {
   UsePipes,
   DefaultValuePipe,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
@@ -19,6 +20,10 @@ import { CreateDogSchemaValidtor } from 'src/core/helpers/create-dog.validators'
 import { AuthGuard } from 'src/core/auth/auth.guard';
 import { RoleGuard } from 'src/core/auth/role.guard';
 import { Roles } from 'src/core/auth/roles.decorator';
+import { LoggingInterceptor } from 'src/core/interceptor/logging.interceptor';
+import { TransformInterceptor } from 'src/core/interceptor/transform.interceptor';
+import { ExcludeNullInterceptor } from 'src/core/interceptor/null.interceptor';
+import { ErrorsInterceptor } from 'src/core/interceptor/errors.interceptor';
 
 @Controller('api/dogs')
 export class DogsController {
@@ -92,5 +97,33 @@ export class DogsController {
   @UseGuards(RoleGuard)
   roleFoo(): string {
     return `Success!!`;
+  }
+
+  // ? http://localhost:3000/api/dogs/interceptor
+  @Get('interceptor')
+  @UseInterceptors(LoggingInterceptor)
+  interceptFoo(): string {
+    return `works!!`;
+  }
+
+  // ? http://localhost:3000/api/dogs/transforminterceptor
+  @Get('transforminterceptor')
+  @UseInterceptors(TransformInterceptor)
+  transforminterceptorFoo(): string {
+    return `transforminterceptor works!!`;
+  }
+
+  // ? http://localhost:3000/api/dogs/nullinterceptor
+  @Get('nullinterceptor')
+  @UseInterceptors(ExcludeNullInterceptor)
+  nullinterceptorFoo(): string {
+    return `nullinterceptor works!!`;
+  }
+
+  // ? http://localhost:3000/api/dogs/errorinterceptor
+  @Get('errorinterceptor')
+  @UseInterceptors(ErrorsInterceptor)
+  errorinterceptorFoo(): string {
+    return `errorinterceptor works!!`;
   }
 }
