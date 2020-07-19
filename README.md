@@ -242,7 +242,27 @@ export class CoreModule {}
 
 ---
 
-# Validation
+# Guards
 
-- Inorder To validate the correctness of any data sent into a web application. To automatically validate incoming requests, Nest provides builtin pipe --> ValidationPipe
--
+- A guard is a class annotated with the @Injectable() decorator. Guards should implement the CanActivate interface.
+- Guards have a single responsibility - They determine whether a given request will be handled by the route handler or not, depending on certain conditions (like permissions, roles, ACLs, etc.) at RUN-TIME, this is called - Authorization
+- Authorization (and its cousin, authentication, with which it usually collaborates) has typically been handled by middleware in traditional Express applications.
+- middleware, by its nature, is dumb. It doesn't know which handler will be executed after calling the next() function.
+- On the other hand, Guards have access to the ExecutionContext instance, and thus know exactly what's going to be executed next.
+- Authorization guard
+  - authorization is a great use case for Guards because - To specific routes should be available only when the caller (usually a specific authenticated user) has sufficient permissions.
+  - The AuthGuard that we'll build now assumes an authenticated user (and that, therefore, a token is attached to the request headers).
+  - It will extract and validate the token, and use the extracted information to determine whether the request can proceed or not.
+  - \$ nest g guard core/auth/auth
+- Role-based authentication
+  - Guard that permits access only to users with a specific role. -> AuthGuard
+  - \$ nest g guard core/auth/role -> RoleGuard
+- Binding guards
+  - like pipes and exception filters, guards can be controller-scoped, method-scoped, or global-scoped.
+  - @UseGuards(AuthGuard) or @UseGuards(new AuthGuard())
+- Setting roles per handler
+  - could have different permission schemes for different routes. Some might be available only for an admin user, and others could be open for everyone.
+  - How can we match roles to routes in a flexible and reusable way?
+  - Nest provides the ability to attach custom metadata to route handlers through the @SetMetadata() decorator
+  - @SetMetadata('roles', ['admin']) <-- Provide Role Data/Information
+  - Check -> roles.decorator.ts
