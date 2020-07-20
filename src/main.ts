@@ -27,7 +27,9 @@ async function bootstrap() {
 
   // ! Inorder to make sure our application initialize CustomLoggerModule ->
   // ! Onces i.e- Single Instance of CustomizeLogger Service
-  app.useLogger(app.get(CustomizeLogger));
+  // app.useLogger(app.get(CustomizeLogger));
+  // ! For Transient scope
+  app.useLogger(new CustomizeLogger());
 
   // !Appying Global Level Middleware
   /* 

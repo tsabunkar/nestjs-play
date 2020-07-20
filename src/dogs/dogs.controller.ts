@@ -143,4 +143,11 @@ export class DogsController {
     this.customizeLogger.error(`${Object}`);
     return `Test Logger`;
   }
+
+  // ? http://localhost:3000/api/dogs/logs/transient
+  @Get('logs/transient')
+  customizeLoggerTransientScope(): string {
+    this.dogsService.customizeLoggerTransientScope();
+    return `Test Logger`;
+  }
 }

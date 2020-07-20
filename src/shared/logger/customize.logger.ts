@@ -1,6 +1,7 @@
-import { Logger, Injectable } from '@nestjs/common';
+import { Logger, Injectable, Scope } from '@nestjs/common';
 
-@Injectable()
+// !transient scope, to ensure that we'll have a unique instance of the Logger in each feature module.
+@Injectable({ scope: Scope.TRANSIENT })
 // ! Techinque is to implement Logging not from scratch, but extending the built-in Logger class
 export class CustomizeLogger extends Logger {
   error(message: string, trace?: string) {
@@ -9,3 +10,5 @@ export class CustomizeLogger extends Logger {
     super.error(message, trace);
   }
 }
+
+// ! TRANSIENT Scope -> Print Time Stamp
