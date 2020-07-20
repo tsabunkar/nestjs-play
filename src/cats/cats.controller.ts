@@ -174,7 +174,7 @@ export class CatsController {
   @Post('excep3')
   // @UseFilters(new CustomHttpExceptionFilter())
   @UseFilters(CustomHttpExceptionFilter) // ! or we can pass the class (instead of an instance)
-  async createCat() {
+  async createCat(): Promise<ForbiddenException> {
     throw new ForbiddenException();
   }
 

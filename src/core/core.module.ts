@@ -5,6 +5,7 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { LoggerMiddleware, loggerMiddlewareFun } from './logger.middleware';
+
 /*eslint-disable */
 const cors = require('cors');
 /*eslint-enable */

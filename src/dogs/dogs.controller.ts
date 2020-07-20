@@ -24,10 +24,20 @@ import { LoggingInterceptor } from 'src/core/interceptor/logging.interceptor';
 import { TransformInterceptor } from 'src/core/interceptor/transform.interceptor';
 import { ExcludeNullInterceptor } from 'src/core/interceptor/null.interceptor';
 import { ErrorsInterceptor } from 'src/core/interceptor/errors.interceptor';
+import { CustomizeLogger } from 'src/shared/logger/customize.logger';
 
 @Controller('api/dogs')
 export class DogsController {
-  constructor(private dogsService: DogsService) {}
+  constructor(
+    private dogsService: DogsService,
+    private customizeLogger: CustomizeLogger,
+  ) {}
+
+  // ?http://localhost:3000/api/dogs
+  @Get()
+  dogTestController(): string {
+    return `Test Method of Dog Controller`;
+  }
 
   //?  http://localhost:3000/api/dogs/pipe1/23 or http://localhost:3000/api/dogs/pipe1/dgf
   // !ParseIntPipe -> method handler parameter is converted to a JavaScript integer
@@ -125,5 +135,12 @@ export class DogsController {
   @UseInterceptors(ErrorsInterceptor)
   errorinterceptorFoo(): string {
     return `errorinterceptor works!!`;
+  }
+
+  // ? http://localhost:3000/api/dogs/logs
+  @Get('logs')
+  customizeLoggerFoo(): string {
+    this.customizeLogger.error(`${Object}`);
+    return `Test Logger`;
   }
 }

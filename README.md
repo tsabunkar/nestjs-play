@@ -284,4 +284,31 @@ export class CoreModule {}
 - Execution context - extending ArgumentsHost
 - CallHandler - this interface implements the handle() method, which you can use to invoke the route handler method at some point in your interceptor.
 - Binding Interceptors -> @UseInterceptors(LoggingInterceptor)
--
+
+---
+
+# Validation
+
+- to validate the correctness of any data sent into a web application.
+- ValidationPipe - builtin pipe, provides a convenient approach to enforce validation rules for all incoming client payloads, where the specific rules are declared
+- Try using validationPipe at global level -> main.ts
+- In order to use ValidationPipe must import lib -> \$ npm i --save class-validator class- (Need to raise issue with these library)
+
+---
+
+# Logger
+
+- Nest comes with a built-in text-based logger which is used during application bootstrapping
+- This functionality is provided via the -> Logger class in the @nestjs/common package
+- fully control the behavior of the logging system:
+  - disable logging entirely
+  - specify the log level of detail (e.g., display errors, warnings, debug information, etc.)
+  - completely override the default logger
+  - customize the default logger by extending it
+  - make use of dependency injection to simplify composing and testing your application
+- Logging level - 'log', 'error', 'warn', 'debug', and 'verbose'
+- In order to enable logging check- main.ts
+- Implement Customize Logger -> CustomLogger and CustomizeLogger (Both are different)
+- NestFactory.create()) happens outside the context of any module, it doesn't participate in the normal Dependency Injection phase of initialization.
+  - So we must ensure that at least one application module imports the LoggerModule to trigger Nest to instantiate a singleton instance of our MyLogger class.
+- I believe customizeLogger Module is right fit inside Shared Module bcoz - Its Service -CustomizeLogger is shared with other feature modules but in SingleInstance Mode
