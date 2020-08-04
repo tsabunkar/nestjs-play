@@ -12,6 +12,7 @@ import {
   DefaultValuePipe,
   UseGuards,
   UseInterceptors,
+  Response,
 } from '@nestjs/common';
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
@@ -25,6 +26,9 @@ import { TransformInterceptor } from 'src/core/interceptor/transform.interceptor
 import { ExcludeNullInterceptor } from 'src/core/interceptor/null.interceptor';
 import { ErrorsInterceptor } from 'src/core/interceptor/errors.interceptor';
 import { CustomizeLogger } from 'src/shared/logger/customize.logger';
+import * as empJSON from '../const/emp.json';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const js2xmlparser = require('js2xmlparser');
 
 @Controller('api/dogs')
 export class DogsController {
@@ -149,5 +153,12 @@ export class DogsController {
   customizeLoggerTransientScope(): string {
     this.dogsService.customizeLoggerTransientScope();
     return `Test Logger`;
+  }
+
+  // ? http://localhost:3000/api/dogs/formats
+  @Get('/formats')
+  xmlResponse(@Response() res) {
+    res.set('Content-Type', 'application/xml');
+    res.send(js2xmlparser.parse('employee', empJSON));
   }
 }
