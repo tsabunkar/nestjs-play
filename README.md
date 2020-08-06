@@ -312,3 +312,5 @@ export class CoreModule {}
 - NestFactory.create()) happens outside the context of any module, it doesn't participate in the normal Dependency Injection phase of initialization.
   - So we must ensure that at least one application module imports the LoggerModule to trigger Nest to instantiate a singleton instance of our MyLogger class.
 - I believe customizeLogger Module is right fit inside Shared Module bcoz - Its Service -CustomizeLogger is shared with other feature modules but in SingleInstance Mode
+
+---
