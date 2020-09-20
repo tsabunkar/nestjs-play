@@ -314,3 +314,14 @@ export class CoreModule {}
 - I believe customizeLogger Module is right fit inside Shared Module bcoz - Its Service -CustomizeLogger is shared with other feature modules but in SingleInstance Mode
 
 ---
+
+# Stream Reference:
+
+https://www.freecodecamp.org/news/node-js-streams-everything-you-need-to-know-c9141306be93/
+https://dzone.com/articles/streaming-data-using-nodejs
+
+https://github.com/typeorm/typeorm/issues/3341
+https://typeorm.io/#/select-query-builder/streaming-result-data
+
+https://stackoverflow.com/questions/37634389/nodejs-http-and-extremely-large-response-bodies
+https://bl.ocks.org/joyrexus/10026630
